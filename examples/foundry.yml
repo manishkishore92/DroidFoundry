@@ -1,0 +1,8 @@
+project:
+  brand: xiaomi
+  device: sweet
+  vendor: xiaomi
+  rom: lineage
+  branch: lineage-22.2
+  github: manishkishore92
+  output: foundry-output
