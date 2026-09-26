@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+DEVICE="{{ device }}"
+VENDOR="{{ vendor }}"
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)"
+HELPER="${ROOT_DIR}/vendor/lineage/build/tools/extract_utils.sh"
+
+if [[ -f "${HELPER}" ]]; then
+  # shellcheck source=/dev/null
+  source "${HELPER}"
+else
+  echo "extract_utils.sh was not found. Copy blobs manually or run from a ROM tree that provides extract_utils.sh."
+  exit 1
+fi
+
+SRC="${1:-adb}"
+
+setup_vendor "${DEVICE}" "${VENDOR}" "${ROOT_DIR}" false
+extract "${ROOT_DIR}/device/${VENDOR}/${DEVICE}/proprietary-files.txt" "${SRC}"
+
+"${ROOT_DIR}/device/${VENDOR}/${DEVICE}/setup-makefiles.sh" 2>/dev/null || true
