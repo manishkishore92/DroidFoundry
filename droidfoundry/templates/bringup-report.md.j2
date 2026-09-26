@@ -1,0 +1,124 @@
+# DroidFoundry Bring-up Report
+
+Generated from firmware dump: `{{ scan.root }}`
+
+## Device metadata
+
+| Field | Value |
+| --- | --- |
+| Brand | {{ metadata.brand }} |
+| Manufacturer | {{ metadata.manufacturer }} |
+| Model | {{ metadata.model }} |
+| Device | {{ metadata.device }} |
+| Product | {{ metadata.product }} |
+| Android version | {{ metadata.android_version }} |
+| SDK | {{ metadata.sdk }} |
+| Security patch | {{ metadata.security_patch }} |
+| Vendor security patch | {{ metadata.vendor_security_patch }} |
+| Build ID | {{ metadata.build_id }} |
+| Build type | {{ metadata.build_type }} |
+| Build tags | {{ metadata.build_tags }} |
+| Platform | {{ metadata.platform }} |
+| First API level | {{ metadata.first_api_level }} |
+| Fingerprint | `{{ metadata.fingerprint }}` |
+
+## Dump overview
+
+| Item | Value |
+| --- | --- |
+| Total files | {{ scan.stats.total_files }} |
+| Total size | {{ file_size_human(scan.stats.total_size) }} |
+| Shared libraries | {{ scan.stats.shared_libraries }} |
+| APK files | {{ scan.stats.apk_files }} |
+| JAR files | {{ scan.stats.jar_files }} |
+| Firmware-like files | {{ scan.stats.firmware_files }} |
+| XML files | {{ scan.stats.xml_files }} |
+| Candidate proprietary blobs | {{ blob_count }} |
+
+## Detected partitions
+
+{% if scan.partitions %}
+{% for partition in scan.partitions %}- `{{ partition }}`
+{% endfor %}
+{% else %}
+No partition directories were detected.
+{% endif %}
+
+## Image files
+
+{% if scan.images %}
+{% for path in scan.images[:40] %}- `{{ rel(path) }}`
+{% endfor %}
+{% if scan.images|length > 40 %}- ... {{ scan.images|length - 40 }} more
+{% endif %}
+{% else %}
+No image files were detected.
+{% endif %}
+
+## Property files
+
+{% if scan.property_files %}
+{% for path in scan.property_files %}- `{{ rel(path) }}`
+{% endfor %}
+{% else %}
+No property files were detected.
+{% endif %}
+
+## VINTF files
+
+{% if scan.vintf_files %}
+{% for path in scan.vintf_files[:40] %}- `{{ rel(path) }}`
+{% endfor %}
+{% if scan.vintf_files|length > 40 %}- ... {{ scan.vintf_files|length - 40 }} more
+{% endif %}
+{% else %}
+No VINTF files were detected.
+{% endif %}
+
+## Init files
+
+{% if scan.init_files %}
+{% for path in scan.init_files[:40] %}- `{{ rel(path) }}`
+{% endfor %}
+{% if scan.init_files|length > 40 %}- ... {{ scan.init_files|length - 40 }} more
+{% endif %}
+{% else %}
+No init files were detected.
+{% endif %}
+
+## Fstab files
+
+{% if scan.fstab_files %}
+{% for path in scan.fstab_files %}- `{{ rel(path) }}`
+{% endfor %}
+{% else %}
+No fstab files were detected.
+{% endif %}
+
+## SELinux policy hints
+
+{% if scan.sepolicy_paths %}
+{% for path in scan.sepolicy_paths %}- `{{ rel(path) }}`
+{% endfor %}
+{% else %}
+No SELinux policy folders were detected.
+{% endif %}
+
+## Warnings
+
+{% if scan.warnings %}
+{% for warning in scan.warnings %}- {{ warning }}
+{% endfor %}
+{% else %}
+No major scan warnings were produced.
+{% endif %}
+
+## Maintainer checklist
+
+- Review generated `BoardConfig.mk`; do not trust partition and kernel values blindly.
+- Review `proprietary-files.txt`; remove unnecessary files before extraction.
+- Verify VINTF manifests and compatibility matrices.
+- Confirm fstab paths, dynamic partition layout and A/B support.
+- Confirm kernel source path, defconfig and compiler requirements.
+- Add device overlays, sepolicy, init files and permissions manually after inspection.
+- Build userdebug first, boot with logs attached, and compare device behavior with stock firmware.
