@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest>
+  <project name="{{ data.device_project }}" path="device/{{ data.brand }}/{{ data.device }}" remote="github" revision="{{ data.branch }}" />
+  <project name="{{ data.kernel_project }}" path="kernel/{{ data.brand }}/{{ data.device }}" remote="github" revision="{{ data.branch }}" />
+  <project name="{{ data.vendor_project }}" path="vendor/{{ data.brand }}/{{ data.device }}" remote="github" revision="{{ data.branch }}" />
+</manifest>
