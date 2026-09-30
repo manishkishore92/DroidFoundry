@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+DEVICE="{{ device }}"
+VENDOR="{{ vendor }}"
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)"
+HELPER="${ROOT_DIR}/vendor/lineage/build/tools/extract_utils.sh"
+
+if [[ -f "${HELPER}" ]]; then
+  # shellcheck source=/dev/null
+  source "${HELPER}"
+  setup_vendor "${DEVICE}" "${VENDOR}" "${ROOT_DIR}" false
+  write_headers
+  write_makefiles "${ROOT_DIR}/device/${VENDOR}/${DEVICE}/proprietary-files.txt" true
+  write_footers
+else
+  echo "extract_utils.sh was not found. Create vendor makefiles manually or run from a compatible ROM tree."
+fi
