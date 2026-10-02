@@ -1,0 +1,34 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+.venv/
+venv/
+env/
+*.egg-info/
+dist/
+build/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+
+# Generated DroidFoundry output
+foundry-output/
+foundry-report/
+rom-harbor-export/
+android-es-export/
+patches/
+*.patch
+*.html
+*.bak-*
+*.tmp.md
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
